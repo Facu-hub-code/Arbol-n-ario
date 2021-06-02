@@ -1,0 +1,9 @@
+insertar raiz:
+desencolo p0        //si
+inserto n0          //si
+encolo n0           //si
+
+paso recursivo:
+encolo n1, n2
+inserto n1,n2
+desencolo n0

@@ -3,7 +3,7 @@
 #include <fstream>
 #include "string"
 #include "vector"
-#include "ColaP.h"
+#include "queue"
 using namespace std;
 
 //Defino la estructura de un Nodo
@@ -17,46 +17,44 @@ struct Nodo{
 Nodo *crearNodo(string, int);
 void insertarNodo(Nodo*&, string , int , int);
 void encolarPalabras();
+void insertarRaiz();
+void pasoRecursivo();
 
 //variables globales
 Nodo *arbol = NULL;
 int cantidadDeHijos, cantPalabras;
-ColaP *colaP = new ColaP();
-
+queue<string> colaP;
+queue<Nodo*> colaA;
 
 int main() {
     encolarPalabras();
-
     cout<<"Ingrese la cantidad de hijos"<<endl;
     cin>>cantidadDeHijos;
+    insertarRaiz();
 
-    insertarNodo(arbol, "primera", cantidadDeHijos, 0);
-
-    for (int j = 0; j < cantidadDeHijos; ++j) {
-        string aux = to_string(j);
-        insertarNodo(arbol, aux, cantidadDeHijos, j);
-    }
-    for (int j = 0; j < cantidadDeHijos; ++j) {
-        string aux = to_string(j);
-        insertarNodo(arbol, aux, cantidadDeHijos, j);
-    }
-
-    for (int j = 0; j < cantidadDeHijos; ++j) {
-        string aux = to_string(j);
-        insertarNodo(arbol, aux, cantidadDeHijos, j);
-    }
-
-    for (int j = 0; j < cantidadDeHijos; ++j) {
-        string aux = to_string(j);
-        insertarNodo(arbol, aux, cantidadDeHijos, j);
-    }
-
-    for (int j = 0; j < cantidadDeHijos; ++j) {
-        string aux = to_string(j);
-        insertarNodo(arbol, aux, cantidadDeHijos, j);
+    for (int i = 0; i < cantPalabras; ++i) {
+        pasoRecursivo();
     }
 
     return 0;
+}
+
+void pasoRecursivo(){
+    for (int i = 0; i < cantidadDeHijos; ++i) {
+        string temp = colaP.front();
+        //Puede que no sea el mismo Nodo que encolo e inserto.
+        Nodo *aux = crearNodo(temp, cantidadDeHijos);
+        colaA.push(aux);
+        insertarNodo(arbol, temp, cantidadDeHijos, i); //probar pasarle la cabeza de la lista
+    }
+    colaA.pop();
+}
+
+//Solo sirve para no sobrecargar el main
+void insertarRaiz(){
+    string p0 = colaP.front(); colaP.pop();
+    insertarNodo(arbol, p0, cantidadDeHijos, 0);
+    colaA.push(arbol);
 }
 
 //Funcion para insertar un Nodo
@@ -66,7 +64,6 @@ void insertarNodo(Nodo *&arbolP, string palara, int cantidadHijos, int indice){
         arbolP = nuevo_nodo;
     }else{
         insertarNodo(arbolP->hijos[indice], palara, cantidadHijos, indice);
-        //insertarNodo(arbolP->hijos.operator[](indice), palara, cantidadHijos, indice);
     }
 }
 
@@ -75,7 +72,7 @@ Nodo *crearNodo(string dato, int cantidadHijos){
     nuevo_nodo->palabra = dato;
 
     for (int i = 0; i < cantidadHijos; ++i) {
-        nuevo_nodo->hijos.push_back(NULL);  //ver como asigna
+        nuevo_nodo->hijos.push_back(NULL);
     }
     return nuevo_nodo;
 }
@@ -89,7 +86,7 @@ void encolarPalabras(){
             istringstream isstream(line);
             while(!isstream.eof()){// Mientras que no termine la linea del txt no sale del while
                 isstream >> tempStr;// Guardo la palabra
-                colaP->encolarNodo(tempStr);// Encolo la palabra
+                colaP.push(tempStr);
                 cantPalabras++;
             }
         }
