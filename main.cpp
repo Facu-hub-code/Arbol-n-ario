@@ -41,7 +41,7 @@ int main() {
 
 void pasoRecursivo(){
     for (int i = 0; i < cantidadDeHijos; ++i) {
-        string temp = colaP.front();
+        string temp = colaP.front();colaP.pop();
         //Puede que no sea el mismo Nodo que encolo e inserto.
         Nodo *aux = crearNodo(temp, cantidadDeHijos);
         colaA.push(aux);
@@ -61,6 +61,8 @@ void insertarRaiz(){
 void insertarNodo(Nodo *&arbolP, string palara, int cantidadHijos, int indice){
     if(arbolP == NULL){                      //si el arbolP esta vacio
         Nodo *nuevo_nodo = crearNodo(palara, cantidadHijos);
+        //antes de agregar hacer que apunte donde yo quiero
+        //colaA.front()->hijos[indice] = nuevo_nodo;  //todo le pase el puntero??
         arbolP = nuevo_nodo;
     }else{
         insertarNodo(arbolP->hijos[indice], palara, cantidadHijos, indice);
