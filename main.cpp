@@ -23,9 +23,18 @@ void insertarRaiz();
 void pasoRecursivo();
 void textoOrdenado();
 
-//variables globales
+void swap(Nodo* pointer1); //sobreescribe
+void swapear(Nodo* pointer1,Nodo* pointer2);
+void reOrdenar(Nodo* raiz, string aux);
+Nodo* obtenerRaiz(Nodo* ultimoHijo);
+Nodo* buscarMax(Nodo* padre);
+void ordenar();
+
+//Variables globales
 Nodo *arbol = NULL;
 int cantidadDeHijos, cantPalabras, contaFlag=0;
+long int comparaciones, swaps;
+queue<Nodo*> terminado;
 queue<string> colaP;
 queue<Nodo*> colaA;
 stack<Nodo*> pilaA;
@@ -40,9 +49,76 @@ int main() {
     insertarRaiz();
     pasoRecursivo();
 
+    ordenar();
+
     cout<<"aber"<<endl;
     return 0;
 }
+
+void swap(Nodo* pointer1){
+    comparaciones++;
+    if((pointer1->padre != NULL)&&(pointer1->padre->palabra < pointer1->palabra)){
+        swaps++;
+        string aux = pointer1->padre->palabra;
+        pointer1->padre->palabra = pointer1->palabra;
+        pointer1->palabra = aux;
+        swap(pointer1->padre);
+    }
+} //sobreescribe
+
+void swapear(Nodo* pointer1,Nodo* pointer2){
+    string aux = " ";
+    pointer1->palabra = pointer2->palabra;
+    pointer2->palabra = aux;
+    swaps++; //todo ?? guardr palabra en txt?
+}
+
+void ordenar(){
+    while (!pilaA.empty()){
+        Nodo *ultimoHijo = pilaA.top();
+        pilaA.pop();
+        string aux = ultimoHijo->palabra;
+        Nodo *raiz = obtenerRaiz(ultimoHijo);
+        swapear(ultimoHijo, raiz);
+        reOrdenar(raiz, aux);
+    }
+}
+
+Nodo* obtenerRaiz(Nodo * ultimoHijo){
+    if(ultimoHijo->padre != NULL){
+        obtenerRaiz(ultimoHijo->padre);
+    } else{
+        return ultimoHijo;
+    }
+}
+
+Nodo* buscarMax(Nodo* padre){
+    vector<Nodo*> hijos= padre->hijos;
+    string max=" ";
+    Nodo* mayor = NULL; //error??
+    for (int i = 0; i < ( hijos.size() && hijos.size() != 0 ); ++i) {
+        comparaciones++;
+        if (hijos[i]->palabra >= max){
+            max = hijos[i]->palabra;
+            mayor = hijos[i];
+        }
+    }
+    return mayor;
+}
+
+void reOrdenar(Nodo* raiz, string aux){
+    Nodo* mayorN= buscarMax(raiz);
+    if(mayorN!=NULL){
+        swapear(raiz,mayorN);
+        reOrdenar(mayorN,aux);
+    }
+    else{
+        raiz->palabra=aux;
+        swap(raiz);
+    }
+}
+
+
 
 void insertarRaiz(){
     //Insertar raiz
