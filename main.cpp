@@ -21,6 +21,7 @@ void insertarNodo(Nodo*&, string , int , int);
 void encolarPalabras();
 void insertarRaiz();
 void pasoRecursivo();
+void textoOrdenado();
 
 //variables globales
 Nodo *arbol = NULL;
@@ -99,3 +100,24 @@ void encolarPalabras(){
     }
     myFile.close();
 }
+
+/*
+void textoOrdenado(){
+    fstream myFile;
+    string direccion = "C:\\Users\\Facundo\\Desktop\\TextoOrdenado.txt";
+    myFile.open(direccion, ios::out);
+    if (myFile.is_open()){
+        int conta=0;
+        while (conta<=(cantPalabras-1)){
+            //for (int i = 0; i < 10; ++i) {
+                myFile<<vectorA.operator[](conta)->palabra<<" ";
+                vectorA.pop_back();
+        //    }
+        }
+
+    cout<<"asd";
+
+    }
+    myFile.close();
+}
+*/
