@@ -28,7 +28,6 @@ queue<string> colaP;
 queue<Nodo*> colaA;
 
 int main() {
-    //todo setear padres
     encolarPalabras();
 
     cout<<"ingrese hijos "<<endl;
@@ -45,9 +44,11 @@ int main() {
 void insertarRaiz(){
     //Insertar raiz
     arbol = crearNodo(colaP.front(), cantidadDeHijos);
+    arbol->padre = NULL;
     colaP.pop();
     for (int i = 0; i < cantidadDeHijos; ++i) {
         Nodo *ni = crearNodo(colaP.front(), cantidadDeHijos);
+        ni->padre = arbol;
         colaP.pop();contaFlag++;
         arbol->hijos[i] = ni;
         colaA.push(ni);
@@ -59,6 +60,7 @@ void pasoRecursivo(){
     while (contaFlag<(cantPalabras-10)){
         for (int j = 0; j < cantidadDeHijos; ++j) {
             Nodo *nj = crearNodo(colaP.front(), cantidadDeHijos);
+            nj->padre = colaA.front();
             colaP.pop();contaFlag++;
             colaA.front()->hijos[j] = nj;
             colaA.push(nj);
