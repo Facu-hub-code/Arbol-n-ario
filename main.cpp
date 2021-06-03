@@ -4,6 +4,7 @@
 #include "string"
 #include "vector"
 #include "queue"
+#include "stack"
 using namespace std;
 
 //Defino la estructura de un Nodo
@@ -26,6 +27,7 @@ Nodo *arbol = NULL;
 int cantidadDeHijos, cantPalabras, contaFlag=0;
 queue<string> colaP;
 queue<Nodo*> colaA;
+stack<Nodo*> pilaA;
 
 int main() {
     encolarPalabras();
@@ -45,10 +47,12 @@ void insertarRaiz(){
     //Insertar raiz
     arbol = crearNodo(colaP.front(), cantidadDeHijos);
     arbol->padre = NULL;
+    pilaA.push(arbol);
     colaP.pop();
     for (int i = 0; i < cantidadDeHijos; ++i) {
         Nodo *ni = crearNodo(colaP.front(), cantidadDeHijos);
         ni->padre = arbol;
+        pilaA.push(ni);
         colaP.pop();contaFlag++;
         arbol->hijos[i] = ni;
         colaA.push(ni);
@@ -61,6 +65,7 @@ void pasoRecursivo(){
         for (int j = 0; j < cantidadDeHijos; ++j) {
             Nodo *nj = crearNodo(colaP.front(), cantidadDeHijos);
             nj->padre = colaA.front();
+            pilaA.push(nj);
             colaP.pop();contaFlag++;
             colaA.front()->hijos[j] = nj;
             colaA.push(nj);
