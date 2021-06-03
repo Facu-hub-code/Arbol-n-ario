@@ -21,8 +21,6 @@ void insertarNodo(Nodo*&, string , int , int);
 void encolarPalabras();
 void insertarRaiz();
 void pasoRecursivo();
-void textoOrdenado();
-
 void swap(Nodo* pointer1); //sobreescribe
 void swapear(Nodo* pointer1,Nodo* pointer2);
 void reOrdenar(Nodo* raiz, string aux);
@@ -49,9 +47,9 @@ int main() {
     insertarRaiz();
     pasoRecursivo();
 
+    //Ordenado HeapSort
     ordenar();
 
-    cout<<"aber"<<endl;
     return 0;
 }
 
@@ -70,7 +68,7 @@ void swapear(Nodo* pointer1,Nodo* pointer2){
     string aux = " ";
     pointer1->palabra = pointer2->palabra;
     pointer2->palabra = aux;
-    swaps++; //todo ?? guardr palabra en txt?
+    swaps++; //guardr palabra en txt?
 }
 
 void ordenar(){
@@ -117,8 +115,6 @@ void reOrdenar(Nodo* raiz, string aux){
         swap(raiz);
     }
 }
-
-
 
 void insertarRaiz(){
     //Insertar raiz
@@ -176,24 +172,3 @@ void encolarPalabras(){
     }
     myFile.close();
 }
-
-/*
-void textoOrdenado(){
-    fstream myFile;
-    string direccion = "C:\\Users\\Facundo\\Desktop\\TextoOrdenado.txt";
-    myFile.open(direccion, ios::out);
-    if (myFile.is_open()){
-        int conta=0;
-        while (conta<=(cantPalabras-1)){
-            //for (int i = 0; i < 10; ++i) {
-                myFile<<vectorA.operator[](conta)->palabra<<" ";
-                vectorA.pop_back();
-        //    }
-        }
-
-    cout<<"asd";
-
-    }
-    myFile.close();
-}
-*/
