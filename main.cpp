@@ -9,8 +9,9 @@ using namespace std;
 //Defino la estructura de un Nodo
 struct Nodo{
     string palabra;
+    Nodo *padre;
     vector<Nodo*> hijos;
-    int cantHijos;
+    int cantHijos, repeticiones;
 };
 
 //Prototipos de funciones
@@ -27,10 +28,21 @@ queue<string> colaP;
 queue<Nodo*> colaA;
 
 int main() {
+    //todo setear padres
     encolarPalabras();
+
     cout<<"ingrese hijos "<<endl;
     cin>>cantidadDeHijos;
 
+    //Armado del heap.
+    insertarRaiz();
+    pasoRecursivo();
+
+    cout<<"aber"<<endl;
+    return 0;
+}
+
+void insertarRaiz(){
     //Insertar raiz
     arbol = crearNodo(colaP.front(), cantidadDeHijos);
     colaP.pop();
@@ -40,7 +52,9 @@ int main() {
         arbol->hijos[i] = ni;
         colaA.push(ni);
     }
+}
 
+void pasoRecursivo(){
     //Paso recursivo
     while (contaFlag<(cantPalabras-10)){
         for (int j = 0; j < cantidadDeHijos; ++j) {
@@ -51,13 +65,11 @@ int main() {
         }
         colaA.pop();
     }
-    cout<<"aber"<<endl;
-    return 0;
 }
+
 Nodo *crearNodo(string dato, int cantidadHijos){
     Nodo *nuevo_nodo = new Nodo();
     nuevo_nodo->palabra = dato;
-
     for (int i = 0; i < cantidadHijos; ++i) {
         nuevo_nodo->hijos.push_back(NULL);
     }

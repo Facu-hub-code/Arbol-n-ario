@@ -1,0 +1,3 @@
+primero que el heapsort funcione con palabras
+despues pasarle un arbol binario de palabras ya armado
+y ultimo hacerlo n-ario con pilas
