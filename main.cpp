@@ -22,50 +22,38 @@ void pasoRecursivo();
 
 //variables globales
 Nodo *arbol = NULL;
-int cantidadDeHijos, cantPalabras;
+int cantidadDeHijos, cantPalabras, contaFlag=0;
 queue<string> colaP;
 queue<Nodo*> colaA;
 
 int main() {
     encolarPalabras();
-    cout<<"Ingrese la cantidad de hijos"<<endl;
+    cout<<"ingrese hijos "<<endl;
     cin>>cantidadDeHijos;
-    insertarRaiz();
 
-    for (int i = 0; i < cantPalabras; ++i) {
-        pasoRecursivo();
+    //Insertar raiz
+    arbol = crearNodo(colaP.front(), cantidadDeHijos);
+    colaP.pop();
+    for (int i = 0; i < cantidadDeHijos; ++i) {
+        Nodo *ni = crearNodo(colaP.front(), cantidadDeHijos);
+        colaP.pop();contaFlag++;
+        arbol->hijos[i] = ni;
+        colaA.push(ni);
     }
 
+    //Paso recursivo
+    while (contaFlag<(cantPalabras-10)){
+        for (int j = 0; j < cantidadDeHijos; ++j) {
+            Nodo *nj = crearNodo(colaP.front(), cantidadDeHijos);
+            colaP.pop();contaFlag++;
+            colaA.front()->hijos[j] = nj;
+            colaA.push(nj);
+        }
+        colaA.pop();
+    }
+    cout<<"aber"<<endl;
     return 0;
 }
-
-void pasoRecursivo(){
-    for (int i = 0; i < cantidadDeHijos; ++i) {
-        string temp = colaP.front();colaP.pop();
-        Nodo *aux = crearNodo(temp, cantidadDeHijos);
-        colaA.push(aux);
-        insertarNodo(arbol, temp, cantidadDeHijos, i); //probar pasarle la cabeza de la lista
-    }
-    colaA.pop();
-}
-
-//Solo sirve para no sobrecargar el main
-void insertarRaiz(){
-    string p0 = colaP.front(); colaP.pop();
-    colaA.push(arbol);
-    insertarNodo(arbol, p0, cantidadDeHijos, 0);
-}
-
-//Funcion para insertar un Nodo
-void insertarNodo(Nodo *&arbolP, string palara, int cantidadHijos, int indice){
-    if(arbolP == NULL){                      //si el arbolP esta vacio
-        Nodo *nuevo_nodo = crearNodo(palara, cantidadHijos);
-        arbolP = nuevo_nodo;
-    }else{
-        insertarNodo(arbolP->hijos[indice], palara, cantidadHijos, indice);//si nos lleva a donde queremos
-    }
-}
-
 Nodo *crearNodo(string dato, int cantidadHijos){
     Nodo *nuevo_nodo = new Nodo();
     nuevo_nodo->palabra = dato;

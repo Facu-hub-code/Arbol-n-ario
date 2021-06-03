@@ -1,5 +1,0 @@
-insertar raiz:
-creo n0, asigno a raiz, encolo ra
-
-paso recursivo:
-creo e insertar n1,n2,n3
